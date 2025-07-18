@@ -48,7 +48,7 @@ func NewProblem(file string, param *Parameter) (*Problem, error) {
 func (problem *Problem) Read(file string, param *Parameter) error { // reads the problem from the specified file
 	f, err := os.Open(file)
 	if err != nil {
-		return fmt.Errorf("Fail to open file %s\n", file)
+		return fmt.Errorf("fail to open file %s", file)
 	}
 
 	defer f.Close() // close f on method return
@@ -74,7 +74,7 @@ func (problem *Problem) Read(file string, param *Parameter) error { // reads the
 		if label, err := strconv.ParseFloat(tokens[0], 64); err == nil {
 			problem.y = append(problem.y, label)
 		} else {
-			return fmt.Errorf("Fail to parse label\n")
+			return fmt.Errorf("fail to parse label")
 		}
 
 		space := tokens[1:]
@@ -85,10 +85,10 @@ func (problem *Problem) Read(file string, param *Parameter) error { // reads the
 					var index int
 					var value float64
 					if index, err = strconv.Atoi(node[0]); err != nil {
-						return fmt.Errorf("Fail to parse index from token %v\n", w)
+						return fmt.Errorf("fail to parse index from token %v", w)
 					}
 					if value, err = strconv.ParseFloat(node[1], 64); err != nil {
-						return fmt.Errorf("Fail to parse value from token %v\n", w)
+						return fmt.Errorf("fail to parse value from token %v", w)
 					}
 					problem.xSpace = append(problem.xSpace, snode{index: index, value: value})
 					if index > max_idx {
@@ -122,10 +122,7 @@ func (problem *Problem) Begin() {
  * Finished iterating through all the labels and vectors in the problem set
  */
 func (problem *Problem) Done() bool {
-	if problem.i >= problem.l {
-		return true
-	}
-	return false
+	return problem.i >= problem.l
 }
 
 /**
@@ -133,7 +130,6 @@ func (problem *Problem) Done() bool {
  */
 func (problem *Problem) Next() {
 	problem.i++
-	return
 }
 
 /**

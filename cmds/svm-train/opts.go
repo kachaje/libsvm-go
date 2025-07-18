@@ -20,12 +20,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/ewalker544/libsvm-go"
 	"io"
-	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
+
+	libSvm "github.com/kachaje/libsvm-go"
 )
 
 var outFP io.Writer = os.Stdout
@@ -40,7 +40,7 @@ func (q *probabilityType) String() string {
 func (q *probabilityType) Set(value string) error {
 	val, err := strconv.Atoi(value)
 	if err != nil || val < 0 || val > 1 {
-		return fmt.Errorf("Invalid probability value (-b %d)\n", val)
+		return fmt.Errorf("invalid probability value (-b %d)", val)
 	}
 	if val == 0 {
 		gParam.Probability = false
@@ -59,7 +59,7 @@ func (q *svmType) String() string {
 func (q *svmType) Set(value string) error {
 	val, err := strconv.Atoi(value)
 	if err != nil || val < 0 || val > 4 {
-		return fmt.Errorf("Invalid svm type (-s %d)\n", val)
+		return fmt.Errorf("invalid svm type (-s %d)", val)
 	}
 	gParam.SvmType = val
 	return nil
@@ -74,7 +74,7 @@ func (q *kernelType) String() string {
 func (q *kernelType) Set(value string) error {
 	val, err := strconv.Atoi(value)
 	if err != nil || val < 0 || val > 4 {
-		return fmt.Errorf("Invalid kernel type (-t %d)\n", val)
+		return fmt.Errorf("invalid kernel type (-t %d)", val)
 	}
 	gParam.KernelType = val
 	return nil
@@ -89,15 +89,15 @@ func (q *weightType) String() string {
 func (q *weightType) Set(value string) error {
 	val := strings.Split(value, ",")
 	if len(val) != 2 {
-		return fmt.Errorf("Incorrect weight format.  The class and weight should be comma-separated, E.g. 1,0.5")
+		return fmt.Errorf("incorrect weight format.  The class and weight should be comma-separated, E.g. 1,0.5")
 	}
 	weightLabel, err := strconv.Atoi(val[0])
 	if err != nil {
-		return fmt.Errorf("Invalid label")
+		return fmt.Errorf("invalid label")
 	}
 	weight, err := strconv.ParseFloat(val[1], 64)
 	if err != nil {
-		return fmt.Errorf("Invalid label weight")
+		return fmt.Errorf("invalid label weight")
 	}
 
 	gParam.WeightLabel = append(gParam.WeightLabel, weightLabel)
@@ -177,7 +177,7 @@ func parseOptions(param *libSvm.Parameter) (nrFold int, trainFile string, modelF
 	}
 
 	if param.QuietMode {
-		outFP = ioutil.Discard
+		outFP = io.Discard
 	}
 
 	return // crossValidation, trainFile, modelFile

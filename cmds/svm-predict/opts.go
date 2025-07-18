@@ -20,12 +20,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/ewalker544/libsvm-go"
 	"io"
 	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
+
+	libSvm "github.com/kachaje/libsvm-go"
 )
 
 var outFP io.Writer = os.Stdout

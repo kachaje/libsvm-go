@@ -19,8 +19,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/ewalker544/libsvm-go"
 	"io"
+
+	libSvm "github.com/kachaje/libsvm-go"
 )
 
 func runPrediction(prob *libSvm.Problem, param *libSvm.Parameter, model *libSvm.Model, outputFp io.Writer) {

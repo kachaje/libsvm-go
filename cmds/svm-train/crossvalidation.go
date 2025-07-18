@@ -19,7 +19,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/ewalker544/libsvm-go"
+
+	libSvm "github.com/kachaje/libsvm-go"
 )
 
 func doCrossValidation(prob *libSvm.Problem, param *libSvm.Parameter, nrFold int) {

@@ -28,7 +28,7 @@ import (
 
 const TAU float64 = 1e-12
 
-func absi(a int) int {
+func Absi(a int) int {
 	if a < 0 {
 		return -a
 	}
@@ -120,28 +120,28 @@ func readline(r *bufio.Reader) (string, error) {
 }
 
 // Mostly for Debugging
-func getModelFileName(file string) string {
+func GetModelFileName(file string) string {
 	var model_file []string
 	model_file = append(model_file, file)
 	model_file = append(model_file, ".model")
 	return strings.Join(model_file, "")
 }
 
-func getTrainFileName(file string) string {
+func GetTrainFileName(file string) string {
 	var train_file []string
 	train_file = append(train_file, file)
 	train_file = append(train_file, ".train")
 	return strings.Join(train_file, "")
 }
 
-func getTestFileName(file string) string {
+func GetTestFileName(file string) string {
 	var test_file []string
 	test_file = append(test_file, file)
 	test_file = append(test_file, ".test")
 	return strings.Join(test_file, "")
 }
 
-func dumpSnode(msg string, px []snode) {
+func DumpSnode(msg string, px []snode) {
 	fmt.Print(msg)
 	for i := 0; px[i].index != -1; i++ {
 		fmt.Printf("%d:%g ", px[i].index, px[i].value)
@@ -149,7 +149,7 @@ func dumpSnode(msg string, px []snode) {
 	fmt.Println("")
 }
 
-func printSpace(x []int, x_space []snode) {
+func PrintSpace(x []int, x_space []snode) {
 	for idx, i := range x {
 		fmt.Printf("x[%d]=%d: ", idx, i)
 		for x_space[i].index != -1 {
@@ -161,7 +161,7 @@ func printSpace(x []int, x_space []snode) {
 	os.Exit(0)
 }
 
-func dump(g []float64) {
+func Dump(g []float64) {
 	for i, v := range g {
 		fmt.Printf("[%d]=%g\n", i, v)
 	}
@@ -171,10 +171,10 @@ func dump(g []float64) {
 /**
  * simple predictable random number generator in rang
  */
-var nSeedi int = 1
+var NSeedi int = 1
 
-func randIntn(rang int) int {
-	nSeedi = (7 * nSeedi) % 11
-	p := float64(nSeedi) / 11.0
+func RandIntn(rang int) int {
+	NSeedi = (7 * NSeedi) % 11
+	p := float64(NSeedi) / 11.0
 	return int(p * float64(rang))
 }

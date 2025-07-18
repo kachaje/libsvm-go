@@ -29,7 +29,7 @@ import (
 func (model *Model) Dump(file string) error {
 	f, err := os.Create(file)
 	if err != nil {
-		return fmt.Errorf("Fail to open file %s\n", file)
+		return fmt.Errorf("fail to open file %s", file)
 	}
 
 	defer f.Close() // close f on method return
@@ -107,7 +107,7 @@ func (model *Model) Dump(file string) error {
 
 		i_idx := model.sV[i]
 		if model.param.KernelType == PRECOMPUTED {
-			output = append(output, fmt.Sprintf("0:%d ", model.svSpace[i_idx]))
+			output = append(output, fmt.Sprintf("0:%v ", model.svSpace[i_idx]))
 		} else {
 			for model.svSpace[i_idx].index != -1 {
 				index := model.svSpace[i_idx].index
@@ -149,7 +149,7 @@ func (model *Model) readHeader(reader *bufio.Reader) error {
 			}
 
 			if i == len(svm_type_string) {
-				return fmt.Errorf("fail to parse svm model %s\n", tokens[1])
+				return fmt.Errorf("fail to parse svm model %s", tokens[1])
 			}
 
 		case "kernel_type":
@@ -162,7 +162,7 @@ func (model *Model) readHeader(reader *bufio.Reader) error {
 			}
 
 			if i == len(kernel_type_string) {
-				return fmt.Errorf("fail to parse kernel type %s\n", tokens[1])
+				return fmt.Errorf("fail to parse kernel type %s", tokens[1])
 			}
 
 		case "degree":
@@ -199,7 +199,7 @@ func (model *Model) readHeader(reader *bufio.Reader) error {
 
 			total_class_comparisons := model.nrClass * (model.nrClass - 1) / 2
 			if total_class_comparisons != len(tokens)-1 {
-				return fmt.Errorf("Number of rhos %d does not mactch the required number %d\n", len(tokens)-1, total_class_comparisons)
+				return fmt.Errorf("number of rhos %d does not mactch the required number %d", len(tokens)-1, total_class_comparisons)
 			}
 
 			model.rho = make([]float64, total_class_comparisons)
@@ -212,7 +212,7 @@ func (model *Model) readHeader(reader *bufio.Reader) error {
 		case "label":
 
 			if model.nrClass != len(tokens)-1 {
-				return fmt.Errorf("Number of labels %d does not appear in the file\n", model.nrClass)
+				return fmt.Errorf("number of labels %d does not appear in the file", model.nrClass)
 			}
 
 			model.label = make([]int, model.nrClass)
@@ -226,7 +226,7 @@ func (model *Model) readHeader(reader *bufio.Reader) error {
 
 			total_class_comparisons := model.nrClass * (model.nrClass - 1) / 2
 			if total_class_comparisons != len(tokens)-1 {
-				return fmt.Errorf("Number of probA %d does not mactch the required number %d\n", len(tokens)-1, total_class_comparisons)
+				return fmt.Errorf("number of probA %d does not mactch the required number %d", len(tokens)-1, total_class_comparisons)
 			}
 
 			model.probA = make([]float64, total_class_comparisons)
@@ -240,7 +240,7 @@ func (model *Model) readHeader(reader *bufio.Reader) error {
 
 			total_class_comparisons := model.nrClass * (model.nrClass - 1) / 2
 			if total_class_comparisons != len(tokens)-1 {
-				return fmt.Errorf("Number of probB %d does not mactch the required number %d\n", len(tokens)-1, total_class_comparisons)
+				return fmt.Errorf("number of probB %d does not mactch the required number %d", len(tokens)-1, total_class_comparisons)
 			}
 
 			model.probB = make([]float64, total_class_comparisons)
@@ -253,7 +253,7 @@ func (model *Model) readHeader(reader *bufio.Reader) error {
 		case "nr_sv":
 
 			if model.nrClass != len(tokens)-1 {
-				return fmt.Errorf("Number of nSV %d does not appear in the file %v\n", model.nrClass, tokens)
+				return fmt.Errorf("number of nSV %d does not appear in the file %v", model.nrClass, tokens)
 			}
 
 			model.nSV = make([]int, model.nrClass)
@@ -266,18 +266,16 @@ func (model *Model) readHeader(reader *bufio.Reader) error {
 		case "SV":
 			return nil // done reading the header!
 		default:
-			return fmt.Errorf("unknown text in model file: [%s]\n", tokens[0])
+			return fmt.Errorf("unknown text in model file: [%s]", tokens[0])
 
 		}
 	}
-
-	return fmt.Errorf("Fail to completely read header")
 }
 
 func (model *Model) ReadModel(file string) error {
 	f, err := os.Open(file)
 	if err != nil {
-		return fmt.Errorf("Fail to open file %s\n", file)
+		return fmt.Errorf("fail to open file %s", file)
 	}
 
 	defer f.Close() // close f on method return
@@ -308,7 +306,7 @@ func (model *Model) ReadModel(file string) error {
 			continue
 		}
 		if i >= l {
-			return fmt.Errorf("Error in reading support vectors.  i=%d and l=%d\n", i, l)
+			return fmt.Errorf("error in reading support vectors.  i=%d and l=%d", i, l)
 		}
 
 		model.sV[i] = len(model.svSpace) // starting index into svSpace for this SV
@@ -317,19 +315,23 @@ func (model *Model) ReadModel(file string) error {
 		for _, token := range tokens {
 			if k < m {
 				model.svCoef[k][i], err = strconv.ParseFloat(token, 64)
+				if err != nil {
+					return err
+				}
+
 				k++
 			} else {
 				node := strings.Split(token, ":")
 				if len(node) < 2 {
-					return fmt.Errorf("Fail to parse svSpace from token %v\n", token)
+					return fmt.Errorf("fail to parse svSpace from token %v", token)
 				}
 				var index int
 				var value float64
 				if index, err = strconv.Atoi(node[0]); err != nil {
-					return fmt.Errorf("Fail to parse index from token %v\n", token)
+					return fmt.Errorf("fail to parse index from token %v", token)
 				}
 				if value, err = strconv.ParseFloat(node[1], 64); err != nil {
-					return fmt.Errorf("Fail to parse value from token %v\n", token)
+					return fmt.Errorf("fail to parse value from token %v", token)
 				}
 				model.svSpace = append(model.svSpace, snode{index: index, value: value})
 			}
