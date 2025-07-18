@@ -18,24 +18,25 @@
  */
 package libSvm
 
-/**
-*  This function gives decision values on a test vector x given a
-   model, and return the predicted label (classification) or
-   the function value (regression).
+/*
+*
 
-   For a classification model with nrClass classes, this function
-   gives nrClass*(nrClass-1)/2 decision values in the slice
-   decisionValues.  The order is label[0] vs. label[1], ...,
-   label[0] vs. label[nr_class-1], label[1] vs. label[2], ...,
-   label[nrClass-2] vs. label[nrClass-1]. The returned returnValue is
-   the predicted class for x. Note that when nrClass = 1, this
-   function does not give any decision value.
+  - This function gives decision values on a test vector x given a
+    model, and return the predicted label (classification) or
+    the function value (regression).
 
-   For a regression model, decisionValues[0] and the returned returnValue are
-   both the function value of x calculated using the model. For a
-   one-class model, decisionValues[0] is the decision value of x, while
-   the returned returnValue is +1/-1.
+    For a classification model with nrClass classes, this function
+    gives nrClass*(nrClass-1)/2 decision values in the slice
+    decisionValues.  The order is label[0] vs. label[1], ...,
+    label[0] vs. label[nr_class-1], label[1] vs. label[2], ...,
+    label[nrClass-2] vs. label[nrClass-1]. The returned returnValue is
+    the predicted class for x. Note that when nrClass = 1, this
+    function does not give any decision value.
 
+    For a regression model, decisionValues[0] and the returned returnValue are
+    both the function value of x calculated using the model. For a
+    one-class model, decisionValues[0] is the decision value of x, while
+    the returned returnValue is +1/-1.
 */
 func (model Model) PredictValues(x map[int]float64) (returnValue float64, decisionValues []float64) {
 	returnValue = 0
@@ -134,15 +135,16 @@ func (model Model) PredictValues(x map[int]float64) (returnValue float64, decisi
 	return
 }
 
-/**
-* This function does classification or regression on a test vector x
-   given a model.
+/*
+*
 
-   For a classification model, the predicted class for x is returned.
-   For a regression model, the function value of x calculated using
-   the model is returned. For an one-class model, +1 or -1 is
-   returned.
+  - This function does classification or regression on a test vector x
+    given a model.
 
+    For a classification model, the predicted class for x is returned.
+    For a regression model, the function value of x calculated using
+    the model is returned. For an one-class model, +1 or -1 is
+    returned.
 */
 func (model Model) Predict(x map[int]float64) float64 {
 

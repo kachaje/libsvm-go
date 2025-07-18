@@ -23,14 +23,16 @@ import (
 	"math"
 )
 
-/**
+/*
+*
 Interface for all kernel functions
 */
 type kernelFunction interface {
 	compute(i, j int) float64
 }
 
-/**
+/*
+*
 Returns the dot product of SVs px and py
 */
 func dot(px, py []snode) float64 {

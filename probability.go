@@ -25,16 +25,17 @@ import (
 	"time"
 )
 
-/**
-* This function does classification or regression on a test vector x
-   given a model with probability information.
+/*
+*
 
-   For a classification model with probability information, this
-   function gives nrClass probability estimates in the slice
-   probabilityEstimate. The class with the highest probability is returned
-   in returnValue. For regression/one-class SVM, probabilityEsstimate is nil,
-   and returnValue is the same as that of Predict.
+  - This function does classification or regression on a test vector x
+    given a model with probability information.
 
+    For a classification model with probability information, this
+    function gives nrClass probability estimates in the slice
+    probabilityEstimate. The class with the highest probability is returned
+    in returnValue. For regression/one-class SVM, probabilityEsstimate is nil,
+    and returnValue is the same as that of Predict.
 */
 func (model Model) PredictProbability(x map[int]float64) (returnValue float64, probabilityEstimate []float64) {
 
