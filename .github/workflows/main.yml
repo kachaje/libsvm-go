@@ -32,11 +32,11 @@ jobs:
       - id: release
         uses: rymndhng/release-on-push-action@master
         with:
-          # Force to v1.3.0
+          # Force to v1.4.0
           bump_version_scheme: minor # patch
           tag_prefix: v
 
-      - name: Refresh versions
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: "https://proxy.golang.org/github.com/kachaje/libsvm-go/@v/${{ steps.release.outputs.tag_name }}.info"
+      # - name: Refresh versions
+      #   uses: fjogeleit/http-request-action@v1
+      #   with:
+      #     url: "https://proxy.golang.org/github.com/kachaje/libsvm-go/@v/${{ steps.release.outputs.tag_name }}.info"
