@@ -61,7 +61,7 @@ func groupClasses(prob *Problem) (nrClass int, label []int, start []int, count [
 	count = make([]int, 0)
 	data_label := make([]int, l)
 
-	for i := 0; i < l; i++ { // find unqie labels and put them in the label slice
+	for i := range l { // find unqie labels and put them in the label slice
 		this_label := int(prob.y[i])
 		var j int
 		for j = 0; j < len(label); j++ {
@@ -83,7 +83,7 @@ func groupClasses(prob *Problem) (nrClass int, label []int, start []int, count [
 	if len(label) == 2 && label[0] == -1 && label[1] == 1 {
 		label[0], label[1] = label[1], label[0] // swap
 		count[0], count[1] = count[1], count[0] // swap
-		for i := 0; i < l; i++ {
+		for i := range l {
 			if data_label[i] == 0 {
 				data_label[i] = 1
 			} else {
@@ -100,7 +100,7 @@ func groupClasses(prob *Problem) (nrClass int, label []int, start []int, count [
 	}
 
 	perm = make([]int, l)
-	for i := 0; i < l; i++ {
+	for i := range l {
 		label_idx := data_label[i]
 		next_avail_pos := start[label_idx]
 		perm[next_avail_pos] = i // index i will be assigned to this position
@@ -121,12 +121,12 @@ func (model *Model) classification(prob *Problem) {
 
 	var l int = prob.l
 	x := make([]int, l)
-	for i := 0; i < l; i++ {
+	for i := range l {
 		x[i] = prob.x[perm[i]] // this is the new x slice with the grouped SVs
 	}
 
 	weighted_C := make([]float64, nrClass)
-	for i := 0; i < nrClass; i++ {
+	for i := range nrClass {
 		weighted_C[i] = model.param.C
 	}
 	for i := 0; i < model.param.NrWeight; i++ { // this is only done if the relative weight of the labels have been set by the user
@@ -144,7 +144,7 @@ func (model *Model) classification(prob *Problem) {
 	}
 
 	nonzero := make([]bool, l)
-	for i := 0; i < l; i++ {
+	for i := range l {
 		nonzero[i] = false
 	}
 
@@ -157,7 +157,7 @@ func (model *Model) classification(prob *Problem) {
 	}
 
 	var p int = 0
-	for i := 0; i < nrClass; i++ {
+	for i := range nrClass {
 		for j := i + 1; j < nrClass; j++ {
 			var subProb Problem
 
@@ -171,12 +171,12 @@ func (model *Model) classification(prob *Problem) {
 			subProb.l = ci + cj          // focus only on 2 labels
 			subProb.x = make([]int, subProb.l)
 			subProb.y = make([]float64, subProb.l)
-			for k := 0; k < ci; k++ {
+			for k := range ci {
 				subProb.x[k] = x[si+k] // starting indices for first label
 				subProb.y[k] = 1
 			}
 
-			for k := 0; k < cj; k++ {
+			for k := range cj {
 				subProb.x[ci+k] = x[sj+k] // starting indices for second label
 				subProb.y[ci+k] = -1
 			}
@@ -189,12 +189,12 @@ func (model *Model) classification(prob *Problem) {
 
 				decisions[p] = decision_result
 
-				for k := 0; k < ci; k++ {
+				for k := range ci {
 					if !nonzero[si+k] && math.Abs(decisions[p].alpha[k]) > 0 {
 						nonzero[si+k] = true
 					}
 				}
-				for k := 0; k < cj; k++ {
+				for k := range cj {
 					if !nonzero[sj+k] && math.Abs(decisions[p].alpha[ci+k]) > 0 {
 						nonzero[sj+k] = true
 					}
@@ -212,12 +212,12 @@ func (model *Model) classification(prob *Problem) {
 	// Update the model!
 	model.nrClass = nrClass
 	model.label = make([]int, nrClass)
-	for i := 0; i < nrClass; i++ {
+	for i := range nrClass {
 		model.label[i] = label[i]
 	}
 
 	model.rho = make([]float64, len(decisions))
-	for i := 0; i < len(decisions); i++ {
+	for i := range decisions {
 		model.rho[i] = decisions[i].rho
 	}
 
@@ -229,7 +229,7 @@ func (model *Model) classification(prob *Problem) {
 	var totalSV int = 0
 	nz_count := make([]int, nrClass)
 	model.nSV = make([]int, nrClass)
-	for i := 0; i < nrClass; i++ {
+	for i := range nrClass {
 		var nSV int = 0
 		for j := 0; j < count[i]; j++ {
 			if nonzero[start[i]+j] {
@@ -252,7 +252,7 @@ func (model *Model) classification(prob *Problem) {
 	model.svIndices = make([]int, totalSV)
 
 	p = 0
-	for i := 0; i < l; i++ {
+	for i := range l {
 		if nonzero[i] {
 			model.sV[p] = x[i]
 			model.svIndices[p] = perm[i] + 1
@@ -272,7 +272,7 @@ func (model *Model) classification(prob *Problem) {
 	}
 
 	p = 0
-	for i := 0; i < nrClass; i++ {
+	for i := range nrClass {
 		for j := i + 1; j < nrClass; j++ {
 
 			// classifier (i,j): coefficients with
@@ -286,14 +286,14 @@ func (model *Model) classification(prob *Problem) {
 			cj := count[j]
 
 			q := nzStart[i]
-			for k := 0; k < ci; k++ {
+			for k := range ci {
 				if nonzero[si+k] {
 					model.svCoef[j-1][q] = decisions[p].alpha[k]
 					q++
 				}
 			}
 			q = nzStart[j]
-			for k := 0; k < cj; k++ {
+			for k := range cj {
 				if nonzero[sj+k] {
 					model.svCoef[i][q] = decisions[p].alpha[ci+k]
 					q++

@@ -74,7 +74,7 @@ func (model Model) PredictValues(x map[int]float64) (returnValue float64, decisi
 		var l int = model.l
 
 		kvalue := make([]float64, l)
-		for i := 0; i < l; i++ {
+		for i := range l {
 			var idx_y int = model.sV[i]
 			py := model.svSpace[idx_y:]
 			kvalue[i] = computeKernelValue(px, py, model.param)
@@ -87,12 +87,12 @@ func (model Model) PredictValues(x map[int]float64) (returnValue float64, decisi
 		}
 
 		vote := make([]int, nrClass)
-		for i := 0; i < nrClass; i++ {
+		for i := range nrClass {
 			vote[i] = 0
 		}
 
 		var p int = 0
-		for i := 0; i < nrClass; i++ {
+		for i := range nrClass {
 			for j := i + 1; j < nrClass; j++ {
 				var sum float64 = 0
 
@@ -104,10 +104,10 @@ func (model Model) PredictValues(x map[int]float64) (returnValue float64, decisi
 
 				coef1 := model.svCoef[j-1]
 				coef2 := model.svCoef[i]
-				for k := 0; k < ci; k++ {
+				for k := range ci {
 					sum += coef1[si+k] * kvalue[si+k]
 				}
-				for k := 0; k < cj; k++ {
+				for k := range cj {
 					sum += coef2[sj+k] * kvalue[sj+k]
 				}
 				sum -= model.rho[p]

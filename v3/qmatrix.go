@@ -240,7 +240,7 @@ func newSVRQ(prob *Problem, param *Parameter) *svrQ {
 
 	l := prob.l
 	qd := make([]float64, 2*l)
-	for i := 0; i < l; i++ {
+	for i := range l {
 		qd[i] = kernel.compute(i, i)
 		qd[i+l] = qd[i]
 	}

@@ -100,7 +100,7 @@ func solveCSVC(prob *Problem, param *Parameter, Cp, Cn float64) solution {
 	minus_one := make([]float64, l)
 	y := make([]int8, l)
 
-	for i := 0; i < l; i++ {
+	for i := range l {
 		alpha[i] = 0
 		minus_one[i] = -1
 		if prob.y[i] > 0 {
@@ -114,7 +114,7 @@ func solveCSVC(prob *Problem, param *Parameter, Cp, Cn float64) solution {
 	si := s.solve() // generate solution
 
 	var sum_alpha float64 = 0
-	for i := 0; i < l; i++ {
+	for i := range l {
 		sum_alpha = sum_alpha + si.alpha[i]
 		si.alpha[i] = si.alpha[i] * float64(y[i])
 	}
@@ -137,7 +137,7 @@ func solveNuSVC(prob *Problem, param *Parameter) solution {
 	y := make([]int8, l)
 	zeros := make([]float64, l)
 
-	for i := 0; i < l; i++ {
+	for i := range l {
 		if prob.y[i] > 0 {
 			y[i] = 1
 		} else {
@@ -148,7 +148,7 @@ func solveNuSVC(prob *Problem, param *Parameter) solution {
 	sum_pos := nu * float64(l) / 2
 	sum_neg := sum_pos
 
-	for i := 0; i < l; i++ {
+	for i := range l {
 		if y[i] == 1 {
 			alpha[i] = minf(1, sum_pos)
 			sum_pos -= alpha[i]
@@ -158,7 +158,7 @@ func solveNuSVC(prob *Problem, param *Parameter) solution {
 		}
 	}
 
-	for i := 0; i < l; i++ {
+	for i := range l {
 		zeros[i] = 0
 	}
 
@@ -170,7 +170,7 @@ func solveNuSVC(prob *Problem, param *Parameter) solution {
 		fmt.Printf("C = %v\n", 1.0/r)
 	}
 
-	for i := 0; i < l; i++ {
+	for i := range l {
 		si.alpha[i] *= (float64(y[i]) / r)
 	}
 
@@ -190,7 +190,7 @@ func solveOneClass(prob *Problem, param *Parameter) solution {
 	ones := make([]int8, l)
 
 	var n int = int(param.Nu) * prob.l
-	for i := 0; i < n; i++ {
+	for i := range n {
 		alpha[i] = 1
 	}
 	if n < l {
@@ -200,7 +200,7 @@ func solveOneClass(prob *Problem, param *Parameter) solution {
 		alpha[i] = 0
 	}
 
-	for i := 0; i < l; i++ {
+	for i := range l {
 		zeros[i] = 0
 		ones[i] = 1
 	}
@@ -218,7 +218,7 @@ func solveEpsilonSVR(prob *Problem, param *Parameter) solution {
 	linear_term := make([]float64, 2*l)
 	y := make([]int8, 2*l)
 
-	for i := 0; i < l; i++ {
+	for i := range l {
 		alpha[i] = 0
 		linear_term[i] = param.P - prob.y[i]
 		y[i] = 1
@@ -232,7 +232,7 @@ func solveEpsilonSVR(prob *Problem, param *Parameter) solution {
 	si := s.solve()
 
 	var sum_alpha float64 = 0
-	for i := 0; i < l; i++ {
+	for i := range l {
 		si.alpha[i] = si.alpha[i] - si.alpha[i+l]
 		sum_alpha += math.Abs(si.alpha[i])
 	}
@@ -256,7 +256,7 @@ func solveNuSVR(prob *Problem, param *Parameter) solution {
 
 	var sum float64 = C * param.Nu * float64(l) / 2.0
 
-	for i := 0; i < l; i++ {
+	for i := range l {
 		alpha[i] = minf(sum, C)
 		alpha[i+l] = alpha[i]
 
@@ -276,7 +276,7 @@ func solveNuSVR(prob *Problem, param *Parameter) solution {
 		fmt.Printf("epsilon = %f\n", -si.r)
 	}
 
-	for i := 0; i < l; i++ {
+	for i := range l {
 		si.alpha[i] = si.alpha[i] - si.alpha[i+l]
 	}
 	si.alpha = si.alpha[:l]

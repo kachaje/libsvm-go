@@ -61,14 +61,14 @@ func (model *Model) Dump(file string) error {
 
 	output = append(output, "rho")
 	total_models := nrClass * (nrClass - 1) / 2
-	for i := 0; i < total_models; i++ {
+	for i := range total_models {
 		output = append(output, fmt.Sprintf(" %.6g", model.rho[i]))
 	}
 	output = append(output, "\n")
 
 	if len(model.label) > 0 {
 		output = append(output, "label")
-		for i := 0; i < nrClass; i++ {
+		for i := range nrClass {
 			output = append(output, fmt.Sprintf(" %d", model.label[i]))
 		}
 		output = append(output, "\n")
@@ -76,7 +76,7 @@ func (model *Model) Dump(file string) error {
 
 	if len(model.probA) > 0 {
 		output = append(output, "probA")
-		for i := 0; i < total_models; i++ {
+		for i := range total_models {
 			output = append(output, fmt.Sprintf(" %.8g", model.probA[i]))
 		}
 		output = append(output, "\n")
@@ -84,7 +84,7 @@ func (model *Model) Dump(file string) error {
 
 	if len(model.probB) > 0 {
 		output = append(output, "probB")
-		for i := 0; i < total_models; i++ {
+		for i := range total_models {
 			output = append(output, fmt.Sprintf(" %.8g", model.probB[i]))
 		}
 		output = append(output, "\n")
@@ -92,7 +92,7 @@ func (model *Model) Dump(file string) error {
 
 	if len(model.nSV) > 0 {
 		output = append(output, "nr_sv")
-		for i := 0; i < nrClass; i++ {
+		for i := range nrClass {
 			output = append(output, fmt.Sprintf(" %d", model.nSV[i]))
 		}
 		output = append(output, "\n")
@@ -100,7 +100,7 @@ func (model *Model) Dump(file string) error {
 
 	output = append(output, "SV\n")
 
-	for i := 0; i < l; i++ {
+	for i := range l {
 		for j := 0; j < nrClass-1; j++ {
 			output = append(output, fmt.Sprintf("%.16g ", model.svCoef[j][i]))
 		}
@@ -203,7 +203,7 @@ func (model *Model) readHeader(reader *bufio.Reader) error {
 			}
 
 			model.rho = make([]float64, total_class_comparisons)
-			for i = 0; i < total_class_comparisons; i++ {
+			for i = range total_class_comparisons {
 				if model.rho[i], err = strconv.ParseFloat(tokens[i+1], 64); err != nil {
 					return err
 				}
@@ -230,7 +230,7 @@ func (model *Model) readHeader(reader *bufio.Reader) error {
 			}
 
 			model.probA = make([]float64, total_class_comparisons)
-			for i = 0; i < total_class_comparisons; i++ {
+			for i = range total_class_comparisons {
 				if model.probA[i], err = strconv.ParseFloat(tokens[i+1], 64); err != nil {
 					return err
 				}
@@ -244,7 +244,7 @@ func (model *Model) readHeader(reader *bufio.Reader) error {
 			}
 
 			model.probB = make([]float64, total_class_comparisons)
-			for i = 0; i < total_class_comparisons; i++ {
+			for i = range total_class_comparisons {
 				if model.probB[i], err = strconv.ParseFloat(tokens[i+1], 64); err != nil {
 					return err
 				}
@@ -289,7 +289,7 @@ func (model *Model) ReadModel(file string) error {
 	var l int = model.l           // read l from header
 	var m int = model.nrClass - 1 // read nrClass from header
 	model.svCoef = make([][]float64, m)
-	for i := 0; i < m; i++ {
+	for i := range m {
 		model.svCoef[i] = make([]float64, l)
 	}
 

@@ -48,12 +48,12 @@ func (model Model) PredictProbability(x map[int]float64) (returnValue float64, p
 		var minProb float64 = 1e-7
 
 		pairWiseProb := make([][]float64, nrClass)
-		for i := 0; i < nrClass; i++ {
+		for i := range nrClass {
 			pairWiseProb[i] = make([]float64, nrClass)
 		}
 
 		var k int = 0
-		for i := 0; i < nrClass; i++ {
+		for i := range nrClass {
 			for j := i + 1; j < nrClass; j++ {
 				m := maxf(sigmoidPredict(decisionValues[k], model.probA[k], model.probB[k]), minProb)
 				pairWiseProb[i][j] = minf(m, 1-minProb)
@@ -97,7 +97,7 @@ func multiClassProbability(k int, r [][]float64) []float64 {
 	Qp := make([]float64, k)
 	eps := 0.005 / float64(k)
 
-	for t := 0; t < k; t++ {
+	for t := range k {
 		p[t] = 1.0 / float64(k)
 		Q[t] = make([]float64, k)
 		Q[t][t] = 0
@@ -117,16 +117,16 @@ func multiClassProbability(k int, r [][]float64) []float64 {
 	for iter = 0; iter < maxIter; iter++ {
 		// stopping condition, recalculate QP,pQP for numerical accuracy
 		pQp = 0
-		for t := 0; t < k; t++ {
+		for t := range k {
 			Qp[t] = 0
-			for j := 0; j < k; j++ {
+			for j := range k {
 				Qp[t] += Q[t][j] * p[j]
 			}
 			pQp += p[t] * Qp[t]
 		}
 
 		var maxError float64 = 0
-		for t := 0; t < k; t++ {
+		for t := range k {
 			err := math.Abs(Qp[t] - pQp)
 			if err > maxError {
 				maxError = err
@@ -137,12 +137,12 @@ func multiClassProbability(k int, r [][]float64) []float64 {
 			break
 		}
 
-		for t := 0; t < k; t++ {
+		for t := range k {
 			diff := (-Qp[t] + pQp) / Q[t][t]
 			p[t] += diff
 			pQp = (pQp + diff*(diff*Q[t][t]+2*Qp[t])) / (1 + diff) / (1 + diff)
 
-			for j := 0; j < k; j++ {
+			for j := range k {
 				Qp[j] = (Qp[j] + diff*Q[t][j]) / (1 + diff)
 				p[j] /= (1 + diff)
 			}
@@ -176,7 +176,7 @@ func binarySvcProbability(prob *Problem, param *Parameter, Cp, Cn float64) (prob
 		perm[i], perm[j] = perm[j], perm[i]
 	}
 
-	for i := 0; i < nrFold; i++ {
+	for i := range nrFold {
 		begin := i * prob.l / nrFold
 		end := (i + 1) * prob.l / nrFold
 
@@ -187,7 +187,7 @@ func binarySvcProbability(prob *Problem, param *Parameter, Cp, Cn float64) (prob
 		subProb.y = make([]float64, subProb.l)
 
 		var k int = 0
-		for j := 0; j < begin; j++ {
+		for j := range begin {
 			subProb.x[k] = prob.x[perm[j]]
 			subProb.y[k] = prob.y[perm[j]]
 			k++
@@ -252,7 +252,7 @@ func sigmoidTrain(l int, decisionValues, labels []float64) (probA float64, probB
 	probA = 0
 	probB = 0
 
-	for i := 0; i < l; i++ {
+	for i := range l {
 		if labels[i] > 0 {
 			prior1++
 		} else {
@@ -276,7 +276,7 @@ func sigmoidTrain(l int, decisionValues, labels []float64) (probA float64, probB
 	probB = math.Log((prior0 + 1) / (prior1 + 1))
 	var fval float64 = 0
 
-	for i := 0; i < l; i++ {
+	for i := range l {
 		if labels[i] > 0 {
 			t[i] = hiTarget
 		} else {
@@ -296,7 +296,7 @@ func sigmoidTrain(l int, decisionValues, labels []float64) (probA float64, probB
 		h21 = 0
 		g1 = 0
 		g2 = 0
-		for i := 0; i < l; i++ {
+		for i := range l {
 			fApB = decisionValues[i]*probA + probB
 
 			if fApB >= 0 {
@@ -334,7 +334,7 @@ func sigmoidTrain(l int, decisionValues, labels []float64) (probA float64, probB
 
 			// New function value
 			newf = 0.0
-			for i := 0; i < l; i++ {
+			for i := range l {
 				fApB = decisionValues[i]*newA + newB
 				if fApB >= 0 {
 					newf += t[i]*fApB + math.Log(1+math.Exp(-fApB))

@@ -111,7 +111,7 @@ func newCache(l, rowSize, cacheSize int) *cache {
 	rowCacheSize := computeCacheSize(rowSize, cacheSize) // number of rows we can cache
 
 	head := make([]cacheNode, l)
-	for i := 0; i < l; i++ {
+	for i := range l {
 		head[i].index = i
 		head[i].refCount = 0
 		head[i].data = nil

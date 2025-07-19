@@ -89,7 +89,7 @@ func (k rbf) compute(i, j int) float64 {
 func newRBF(x []int, xSpace []snode, l int, gamma float64) rbf {
 	x_square := make([]float64, l)
 
-	for i := 0; i < l; i++ {
+	for i := range l {
 		var idx_i int = x[i]
 		x_square[i] = dot(xSpace[idx_i:], xSpace[idx_i:])
 	}

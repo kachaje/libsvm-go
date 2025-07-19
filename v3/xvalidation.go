@@ -55,11 +55,11 @@ func CrossValidation(prob *Problem, param *Parameter, nrFold int) (target []floa
 		// random shuffle and then data grouped by fold using the array perm
 		foldCount := make([]int, nrFold)
 		index := make([]int, l)
-		for i := 0; i < l; i++ {
+		for i := range l {
 			index[i] = perm[i]
 		}
 
-		for c := 0; c < nrClass; c++ {
+		for c := range nrClass {
 			for i := 0; i < count[c]; i++ {
 				j := i + random.Intn(count[c]-i)
 				//j := i + randIntn(count[c]-i)
@@ -69,7 +69,7 @@ func CrossValidation(prob *Problem, param *Parameter, nrFold int) (target []floa
 
 		for i := 0; i < nrFold; i++ {
 			foldCount[i] = 0
-			for c := 0; c < nrClass; c++ {
+			for c := range nrClass {
 				foldCount[i] += (i+1)*count[c]/nrFold - i*count[c]/nrFold
 			}
 		}
@@ -79,7 +79,7 @@ func CrossValidation(prob *Problem, param *Parameter, nrFold int) (target []floa
 			foldStart[i] = foldStart[i-1] + foldCount[i-1]
 		}
 
-		for c := 0; c < nrClass; c++ {
+		for c := range nrClass {
 			for i := 0; i < nrFold; i++ {
 				begin := start[c] + i*count[c]/nrFold
 				end := start[c] + (i+1)*count[c]/nrFold
@@ -96,11 +96,11 @@ func CrossValidation(prob *Problem, param *Parameter, nrFold int) (target []floa
 		}
 	} else {
 
-		for i := 0; i < l; i++ {
+		for i := range l {
 			perm[i] = i
 		}
 
-		for i := 0; i < l; i++ {
+		for i := range l {
 			j := i + random.Intn(l-i)
 			perm[i], perm[j] = perm[j], perm[i]
 		}
@@ -122,7 +122,7 @@ func CrossValidation(prob *Problem, param *Parameter, nrFold int) (target []floa
 		subProb.y = make([]float64, subProb.l)
 
 		var k int = 0
-		for j := 0; j < begin; j++ {
+		for j := range begin {
 			subProb.x[k] = prob.x[perm[j]]
 			subProb.y[k] = prob.y[perm[j]]
 			k++

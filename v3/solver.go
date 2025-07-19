@@ -258,7 +258,7 @@ func (solver *solver) initGradientInnerLoop(Q_i []cacheDataType, alpha_i float64
 	solver.parRunner.waitAll()
 }
 
-func (solver *solver) initGradient() {
+func (solver *solver) InitGradient() {
 	run := func(tid, start, end int) {
 		//for j := 0; j < solver.l; j++ {
 		for j := start; j < end; j++ {
