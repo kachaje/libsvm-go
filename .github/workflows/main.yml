@@ -38,4 +38,4 @@ jobs:
             /repos/kachaje/libsvm-go/releases \
             -f "tag_name=$VERSION" -f 'target_commitish=main' -f "name=$VERSION" -f 'body=New release' -F "draft=false" -F "prerelease=false" -F "generate_release_notes=false"
 
-          go list -m github.com/kachaje/libsvm-go@${VERSION}
+          go list -m github.com/kachaje/libsvm-go/v3@${VERSION}
