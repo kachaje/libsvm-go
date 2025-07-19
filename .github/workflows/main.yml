@@ -21,6 +21,7 @@ jobs:
         run: go build -v ./...
 
       - name: Test
+        working-directory: ./v3
         run: go test -v ./...
 
   release-on-push:
@@ -30,11 +31,9 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       GOPROXY: proxy.golang.org 
     steps:
-      - id: release
-        uses: rymndhng/release-on-push-action@master
-        with:
-          bump_version_scheme: patch
-          tag_prefix: v
+      run: |
+        VERSION=`gh api /repos/kachaje/libsvm-go/tags --jq .[0].name | awk -F. '{OFS="."; $NF+=1; print $0}'`
 
-      - name: Refresh versions
-        run: go list -m github.com/kachaje/libsvm-go@${{ steps.release.outputs.tag_name }}
+        git tag -a ${VERSION} -m "new release"
+
+        go list -m github.com/kachaje/libsvm-go@${VERSION}
