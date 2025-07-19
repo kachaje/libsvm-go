@@ -36,4 +36,6 @@ jobs:
 
           git tag -a ${VERSION} -m "new release"
 
+          git push origin tag ${VERSION}
+
           go list -m github.com/kachaje/libsvm-go@${VERSION}
