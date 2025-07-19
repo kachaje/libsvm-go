@@ -38,4 +38,4 @@ jobs:
       - name: Refresh versions
         uses: fjogeleit/http-request-action@v1
         with:
-          url: "https://proxy.golang.org/github.com/kachaje/goydb/@v/${{ steps.release.outputs.tag_name }}.info"
+          url: "https://proxy.golang.org/github.com/kachaje/libsvm-go/@v/${{ steps.release.outputs.tag_name }}.info"
