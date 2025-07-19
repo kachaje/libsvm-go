@@ -17,11 +17,11 @@ jobs:
         with:
           go-version: 1.24.x
 
-      # - name: Build
-      #   run: go build -v ./...
+      - name: Build
+        run: go build -v ./...
 
-      # - name: Test
-      #   run: go test -v ./...
+      - name: Test
+        run: go test -v ./...
 
   release-on-push:
     needs: [build]
@@ -32,11 +32,10 @@ jobs:
       - id: release
         uses: rymndhng/release-on-push-action@master
         with:
-          # Force to v1.19.0
-          bump_version_scheme: minor # patch
+          bump_version_scheme: patch
           tag_prefix: v
 
-      # - name: Refresh versions
-      #   uses: fjogeleit/http-request-action@v1
-      #   with:
-      #     url: "https://proxy.golang.org/github.com/kachaje/libsvm-go/@v/${{ steps.release.outputs.tag_name }}.info"
+      - name: Refresh versions
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "https://proxy.golang.org/github.com/kachaje/libsvm-go/@v/${{ steps.release.outputs.tag_name }}.info"
