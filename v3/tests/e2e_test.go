@@ -49,17 +49,29 @@ func TestCustom(t *testing.T) {
 	param := libSvm.NewParameter()
 	param.C = 4
 
-	model := libSvm.NewModel(param)
-
-	y := []float64{1, -1, 1, -1, 1, -1}
+	y := []float64{1, -1, 1, -1, -1}
 	X := [][]float64{
-		{0.5, 1.2, 0.8},
-		{0.6, 1.1, 0.7},
-		{0.4, 1.3, 0.9},
-		{0.7, 1.0, 0.6},
-		{0.5, 1.2, 0.8},
-		{0.6, 1.1, 0.7},
+		{0.708333, 1, 1, -0.320755, -0.105023, -1, 1, -0.419847, -1, -0.225806, 0, 1, -1},
+		{0.583333, -1, 0.333333, -0.603774, 1, -1, 1, 0.358779, -1, -0.483871, 0, -1, 1},
+		{0.166667, 1, -0.333333, -0.433962, -0.383562, -1, -1, 0.0687023, -1, -0.903226, -1, -1, 1},
+		{0.458333, 1, 1, -0.358491, -0.374429, -1, -1, -0.480916, 1, -0.935484, 0, -0.333333, 1},
+		{0.875, -1, -0.333333, -0.509434, -0.347032, -1, 1, -0.236641, 1, -0.935484, -1, -0.333333, -1},
 	}
 
-	_, _, _ = model, y, X
+	problem, err := libSvm.Fit(X, y, param)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	model := libSvm.NewModel(param)
+
+	model.Train(problem)
+
+	x := make(map[int]float64)
+
+	predictLabel := model.Predict(x)
+
+	if predictLabel != -1 {
+		t.Fatalf("Test failed. Expected: -1; Actual: %f", predictLabel)
+	}
 }
