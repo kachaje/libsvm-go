@@ -7,8 +7,11 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GOPROXY: proxy.golang.org 
     steps:
       - uses: actions/checkout@v2
 
@@ -23,17 +26,11 @@ jobs:
       - name: Test
         working-directory: ./v3
         run: go test -v ./...
+      
+      - name: Release
+        run: |
+          VERSION=`gh api /repos/kachaje/libsvm-go/tags --jq .[0].name | awk -F. '{OFS="."; $NF+=1; print $0}'`
 
-  release-on-push:
-    needs: [build]
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      GOPROXY: proxy.golang.org 
-    steps:
-      run: |
-        VERSION=`gh api /repos/kachaje/libsvm-go/tags --jq .[0].name | awk -F. '{OFS="."; $NF+=1; print $0}'`
+          git tag -a ${VERSION} -m "new release"
 
-        git tag -a ${VERSION} -m "new release"
-
-        go list -m github.com/kachaje/libsvm-go@${VERSION}
+          go list -m github.com/kachaje/libsvm-go@${VERSION}
