@@ -20,6 +20,7 @@ package libSvm
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"os"
 	"strconv"
@@ -150,4 +151,34 @@ func (problem *Problem) GetLine() (y float64, x map[int]float64) {
  */
 func (problem *Problem) ProblemSize() int {
 	return problem.l
+}
+
+func (p *Problem) ToJSON() (*string, error) {
+	data := map[string]any{}
+
+	data["l"] = p.l
+	data["y"] = p.y
+	data["x"] = p.x
+
+	xSpace := []map[string]any{}
+
+	for _, node := range p.xSpace {
+		row := map[string]any{
+			"index": node.index,
+			"value": node.value,
+		}
+
+		xSpace = append(xSpace, row)
+	}
+
+	data["xSpace"] = xSpace
+
+	payload, err := json.Marshal(data)
+	if err != nil {
+		return nil, err
+	}
+
+	result := string(payload)
+
+	return &result, nil
 }

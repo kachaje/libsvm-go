@@ -2,7 +2,7 @@ package libSvm
 
 import "fmt"
 
-func Fit(X [][]float64, y []int, param *Parameter) (*Problem, error) {
+func Fit(X [][]float64, y []float64, param *Parameter) (*Problem, error) {
 	problem := &Problem{}
 
 	problem.y = nil
