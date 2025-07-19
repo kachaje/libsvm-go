@@ -28,6 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GOPROXY: proxy.golang.org 
     steps:
       - id: release
         uses: rymndhng/release-on-push-action@master
@@ -36,6 +37,5 @@ jobs:
           tag_prefix: v
 
       - name: Refresh versions
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: "https://proxy.golang.org/github.com/kachaje/libsvm-go/@v/${{ steps.release.outputs.tag_name }}.info"
+        run: go list -m github.com/kacha
+je/libsvm-go@${{ steps.release.outputs.tag_name }}
