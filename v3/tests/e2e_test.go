@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	libSvm "github.com/kachaje/libsvm-go"
+	libSvm "github.com/kachaje/libsvm-go/v3"
 )
 
 func TestTrain(t *testing.T) {
