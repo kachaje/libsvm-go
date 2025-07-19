@@ -24,21 +24,4 @@ jobs:
         run: go test -v ./...
 
       - name: Release
-        run: GOPROXY=proxy.golang.org go list -m github.com/kachaje/libsvm-go@${{steps.release.outputs.tag_name}}
-
-  # release-on-push:
-  #   needs: [build]
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #   steps:
-  #     - id: release
-  #       uses: rymndhng/release-on-push-action@master
-  #       with:
-  #         bump_version_scheme: patch
-  #         tag_prefix: v
-
-  #     - name: Refresh versions
-  #       uses: fjogeleit/http-request-action@v1
-  #       with:
-  #         url: "https://proxy.golang.org/github.com/kachaje/libsvm-go/@v/${{ steps.release.outputs.tag_name }}.info"
+        run: GOPROXY=proxy.golang.org go list -m github.com/kachaje/libsvm-go@${{github.ref_name}}
