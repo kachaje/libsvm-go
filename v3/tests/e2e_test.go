@@ -45,10 +45,6 @@ func TestPredict(t *testing.T) {
 	}
 }
 
-func TestFit(t *testing.T) {
-	
-}
-
 func TestCustom(t *testing.T) {
 	param := libSvm.NewParameter()
 	param.C = 4

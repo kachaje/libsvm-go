@@ -1,0 +1,88 @@
+libSvm.Problem{
+	l:5, 
+
+	y:[]float64{1, -1, 1, -1, -1}, 
+
+	x:[]int{0, 13, 26, 40, 53}, 
+
+	xSpace:[]libSvm.snode{
+		libSvm.snode{index:1, value:0.708333}, 
+		libSvm.snode{index:2, value:1}, 
+		libSvm.snode{index:3, value:1}, 
+		libSvm.snode{index:4, value:-0.320755}, 
+		libSvm.snode{index:5, value:-0.105023}, 
+		libSvm.snode{index:6, value:-1}, 
+		libSvm.snode{index:7, value:1}, 
+		libSvm.snode{index:8, value:-0.419847}, 
+		libSvm.snode{index:9, value:-1}, 
+		libSvm.snode{index:10, value:-0.225806}, 
+		libSvm.snode{index:12, value:1}, 
+		libSvm.snode{index:13, value:-1}, 
+
+		libSvm.snode{index:-1, value:0},
+
+		libSvm.snode{index:1, value:0.583333}, 
+		libSvm.snode{index:2, value:-1}, 
+		libSvm.snode{index:3, value:0.333333}, 
+		libSvm.snode{index:4, value:-0.603774}, 
+		libSvm.snode{index:5, value:1}, 
+		libSvm.snode{index:6, value:-1}, 
+		libSvm.snode{index:7, value:1}, 
+		libSvm.snode{index:8, value:0.358779}, 
+		libSvm.snode{index:9, value:-1}, 
+		libSvm.snode{index:10, value:-0.483871}, 
+		libSvm.snode{index:12, value:-1}, 
+		libSvm.snode{index:13, value:1}, 
+
+		libSvm.snode{index:-1, value:0}, 
+
+		libSvm.snode{index:1, value:0.166667}, 
+		libSvm.snode{index:2, value:1}, 
+		libSvm.snode{index:3, value:-0.333333}, 
+		libSvm.snode{index:4, value:-0.433962}, 
+		libSvm.snode{index:5, value:-0.383562}, 
+		libSvm.snode{index:6, value:-1}, 
+		libSvm.snode{index:7, value:-1}, 
+		libSvm.snode{index:8, value:0.0687023}, 
+		libSvm.snode{index:9, value:-1}, 
+		libSvm.snode{index:10, value:-0.903226}, 
+		libSvm.snode{index:11, value:-1}, 
+		libSvm.snode{index:12, value:-1}, 
+		libSvm.snode{index:13, value:1}, 
+
+		libSvm.snode{index:-1, value:0}, 
+
+		libSvm.snode{index:1, value:0.458333}, 
+		libSvm.snode{index:2, value:1}, 
+		libSvm.snode{index:3, value:1}, 
+		libSvm.snode{index:4, value:-0.358491}, 
+		libSvm.snode{index:5, value:-0.374429}, 
+		libSvm.snode{index:6, value:-1}, 
+		libSvm.snode{index:7, value:-1}, 
+		libSvm.snode{index:8, value:-0.480916}, 
+		libSvm.snode{index:9, value:1}, 
+		libSvm.snode{index:10, value:-0.935484}, 
+		libSvm.snode{index:12, value:-0.333333}, 
+		libSvm.snode{index:13, value:1}, 
+
+		libSvm.snode{index:-1, value:0}, 
+
+		libSvm.snode{index:1, value:0.875}, 
+		libSvm.snode{index:2, value:-1}, 
+		libSvm.snode{index:3, value:-0.333333}, 
+		libSvm.snode{index:4, value:-0.509434}, 
+		libSvm.snode{index:5, value:-0.347032}, 
+		libSvm.snode{index:6, value:-1}, 
+		libSvm.snode{index:7, value:1}, 
+		libSvm.snode{index:8, value:-0.236641}, 
+		libSvm.snode{index:9, value:1}, 
+		libSvm.snode{index:10, value:-0.935484}, 
+		libSvm.snode{index:11, value:-1}, 
+		libSvm.snode{index:12, value:-0.333333}, 
+		libSvm.snode{index:13, value:-1}, 
+
+		libSvm.snode{index:-1, value:0},
+		}, 
+		
+	i:0,
+}
