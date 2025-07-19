@@ -35,12 +35,10 @@ jobs:
     steps:
       - id: release
 
-      - name: Set up Go
+      - name: Release
         uses: actions/setup-go@v2
         with:
           go-version: 1.24.x
-
-      - name: Release
         run: |
           VERSION=`gh api /repos/kachaje/libsvm-go/tags --jq .[0].name | awk -F. '{OFS="."; $NF+=1; print $0}'`
 
