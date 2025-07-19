@@ -44,3 +44,22 @@ func TestPredict(t *testing.T) {
 		t.Fatalf("Test failed. Expected: -1; Actual: %f", predictLabel)
 	}
 }
+
+func TestCustom(t *testing.T) {
+	param := libSvm.NewParameter()
+	param.C = 4
+
+	model := libSvm.NewModel(param)
+
+	y := []float64{1, -1, 1, -1, 1, -1}
+	X := [][]float64{
+		{0.5, 1.2, 0.8},
+		{0.6, 1.1, 0.7},
+		{0.4, 1.3, 0.9},
+		{0.7, 1.0, 0.6},
+		{0.5, 1.2, 0.8},
+		{0.6, 1.1, 0.7},
+	}
+
+	_, _, _ = model, y, X
+}
